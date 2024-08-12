@@ -3,17 +3,20 @@ import Results from "./Results";
 
 export default function Input({ onChangeInput, userInput }) {
     const [showResults, setShowResults] = useState(false);
-
+    const [finalInput, setFinalInput] = useState(null);
+    const validDuration = userInput.Duration >= 1;
     function handleButton() {
         if (validDuration) {
+            setFinalInput(userInput);
             setShowResults(true);
             setTimeout(() => {
                 document.getElementById("results-section").scrollIntoView({ behavior: "smooth" });
-            }, 100);
+            }, 1000);
+        }
+        else {
+            setShowResults(false);
         }
     }
-
-    const validDuration = userInput.Duration >= 1
     return (
         <section id='user-input'>
             <div className='input-group'>
@@ -52,7 +55,7 @@ export default function Input({ onChangeInput, userInput }) {
             <button id='button' onClick={handleButton}>
                 Show Results
             </button>
-            {showResults && validDuration && <Results input={userInput} />}
+            {showResults && finalInput && <Results input={finalInput} />}
 
         </section>
     )
